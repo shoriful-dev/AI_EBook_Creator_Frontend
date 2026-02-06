@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import {Menu, X, BookOpen, LogOut} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
+import ProfileDropdown from './ProfileDropdown';
 
 const Navber = () => {
   const {user, logOut, isAuthenticated} = useAuth();
