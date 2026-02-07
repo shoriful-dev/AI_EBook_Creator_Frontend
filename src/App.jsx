@@ -3,10 +3,10 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import DashboardLayout from './components/layout/DashboardLayout';
 import EditorPage from './pages/EditorPage';
 import ViewBookPage from './pages/ViewBookPage';
 import ProfilePage from './pages/ProfilePage';
+import DashboardPage from './pages/DashboardPage';
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashboardLayout />
+              <DashboardPage />
             </ProtectedRoute>
           }
         />

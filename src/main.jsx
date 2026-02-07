@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <BrowserRouter>
         <App />
-        <Toaster position="button-right" />
+        <Toaster position="bottom-right" />
       </BrowserRouter>
     </AuthProvider>
   </StrictMode>,
