@@ -40,10 +40,10 @@ const Hero = () => {
                 <span>Start Creating for Free</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <a href="#demo" className="inline-flex items-center space-x-2 text-gray-700 font-medium hover:text-violet-600 transition-colors duration-200">
+              <Link to={'/'} className="inline-flex items-center space-x-2 text-gray-700 font-medium hover:text-violet-600 transition-colors duration-200">
                 <span>Watch Demo</span>
                 <span className='text-violet-600'>→</span>
-              </a>
+              </Link>
             </div>
 
             <div className="flex items-center gap-8 pt-4">

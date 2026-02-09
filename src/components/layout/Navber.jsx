@@ -1,18 +1,25 @@
-import {useState, useEffect} from 'react';
-import {Menu, X, BookOpen, LogOut} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, X, BookOpen, LogOut } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import ProfileDropdown from './ProfileDropdown';
+import { BASE_URL } from '../../utils/apiPaths';
 
 const Navber = () => {
-  const {user, logOut, isAuthenticated} = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
   const [profileDropdownMenu, setProfileDropdownMenu] = useState(false);
 
   const navLinks = [
-    {name: 'Features', href: '#features'},
-    {name: 'Testimonials', href: '#testimonials'},
-  ]
+    { name: 'Features', href: '#features' },
+    { name: 'Testimonials', href: '#testimonials' },
+  ];
+
+  const avatarUrl = user?.avatar
+    ? user.avatar.startsWith('http')
+      ? user.avatar
+      : `${BASE_URL}/backend/${user.avatar}`.replace(/\\/g, '/')
+    : '';
 
   // close dropdowns when clicking outside
   useEffect(() => {
@@ -23,7 +30,8 @@ const Navber = () => {
     };
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  },[profileDropdownMenu])
+  }, [profileDropdownMenu]);
+
   return (
     <header>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -58,11 +66,11 @@ const Navber = () => {
                   e.stopPropagation();
                   setProfileDropdownMenu(!profileDropdownMenu);
                 }}
-                avatar={user?.avatar || ''}
+                avatar={avatarUrl}
                 companyName={user?.name || ''}
                 email={user?.email || ''}
                 userRole={user?.role || ''}
-                onLogout={() => console.log('logout')}
+                onLogout={logout}
               />
             ) : (
               <>
@@ -108,28 +116,47 @@ const Navber = () => {
           <div className="px-4 py-4 border-t border-gray-100">
             {isAuthenticated ? (
               <div className="space-y-3">
-                <div className="flex items-center space-x-3 px2">
-                  <div className="h-8 w-8 bg-linear-to-br from-violet-400 to-purple-500 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-semibold text-sm">
-                      {user?.name?.charAt(0).toUpperCase()}
-                    </span>
+                <div className="flex items-center space-x-3 px-2">
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt="avatar"
+                      className="w-8 h-8 object-cover rounded-xl"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 bg-linear-to-br from-violet-400 to-purple-500 rounded-xl flex items-center justify-center">
+                      <span className="text-white font-semibold text-sm">
+                        {user?.name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-gray-900">
+                      {user?.name}
+                    </div>
+                    <div className="text-xs text-gray-500">{user?.email}</div>
                   </div>
                 </div>
-                <div className="text-sm font-medium text-gray-900">
-                  {user?.name}
-                </div>
-                <div className="text-xs text-gray-500">{user?.email}</div>
-                <button onClick={() => logOut()} className="w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:text-red-50 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2">
-                  {<LogOut className='w-4 h-4'/>}
+                <button
+                  onClick={() => logout()}
+                  className="w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2"
+                >
+                  <LogOut className="w-4 h-4" />
                   <span>Sign out</span>
                 </button>
               </div>
             ) : (
               <div className="space-y-2">
-                <a href="/login" className="block text-center px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                <a
+                  href="/login"
+                  className="block text-center px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-all duration-200"
+                >
                   Login
                 </a>
-                <a href="/signup" className="block text-center px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-violet-600 to-purple-600 rounded-lg shadow-violet-500/30 shadow-lg hover:shadow-violet-500/50 transition-all duration-200">
+                <a
+                  href="/signup"
+                  className="block text-center px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-violet-600 to-purple-600 rounded-lg shadow-violet-500/30 shadow-lg hover:shadow-violet-500/50 transition-all duration-200"
+                >
                   Get Started
                 </a>
               </div>

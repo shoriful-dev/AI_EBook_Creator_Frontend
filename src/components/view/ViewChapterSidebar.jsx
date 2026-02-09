@@ -31,7 +31,7 @@ const ViewChapterSidebar = ({
           </div>
 
           <div className="overflow-y-auto h-full pb-20">
-            {book.chapters.map((chapter, index) => (
+            {(book?.chapters || []).map((chapter, index) => (
               <button key={index} onClick={() => {onSelectChapter(index); onClose()}} className={`w-full text-left p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-b ${selectedChapterIndex === index ? 'bg-violet-50 border-l-4 border-l-violet-600' : ''}`}>
                 <div className={`font-medium text-sm truncate ${selectedChapterIndex === index ? 'text-violet-900' : 'text-gray-900'}`}>
                   {chapter.title}

@@ -49,7 +49,7 @@ const EditorPage = () => {
         const response = await axiosInstance.get(
           `${API_PATHS.BOOKS.GET_BOOK_BY_ID}/${bookId}`,
         );
-        setBook(response.data);
+        setBook(response.data?.book);
       } catch (error) {
         toast.error(
           error.response?.data?.message ||
@@ -138,7 +138,7 @@ const EditorPage = () => {
           },
         },
       );
-      setBook(response.data);
+      setBook(response.data?.book);
       toast.success('Cover image uploaded successfully!');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to upload cover image.');
@@ -265,12 +265,12 @@ const EditorPage = () => {
                 </button>
               </div>
               <ChapterSidebar
-                book={book}
-                selectedChapterIndex={selectedChapterIndex}
-                onSelectChapter={index => {
-                  setSelectedChapterIndex(index);
-                  setIsSidebarOpen(false);
-                }}
+            book={book}
+            selectedChapterIndex={selectedChapterIndex}
+            onSelectChapter={index => {
+              setSelectedChapterIndex(index);
+              setIsSidebarOpen(false);
+            }}
                 onAddChapter={handleAddChapter}
                 onDeleteChapter={handleDeleteChapter}
                 onGenerateChapterContent={handleGenerateChapterContent}
@@ -287,10 +287,7 @@ const EditorPage = () => {
           <ChapterSidebar
             book={book}
             selectedChapterIndex={selectedChapterIndex}
-            onSelectChapter={index => {
-              selectedChapterIndex(index);
-              setIsSidebarOpen(false);
-            }}
+            onSelectChapter={index => setSelectedChapterIndex(index)}
             onAddChapter={handleAddChapter}
             onDeleteChapter={handleDeleteChapter}
             onGenerateChapterContent={handleGenerateChapterContent}
@@ -347,7 +344,7 @@ const EditorPage = () => {
               </Dropdown>
 
               <Button
-                onClick={handleSaveChanges()}
+                onClick={() => handleSaveChanges()}
                 isLoading={isSaving}
                 icon={Save}
               >

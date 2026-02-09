@@ -18,7 +18,7 @@ import { API_PATHS } from '../../utils/apiPaths';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
 
-const CreateBookModal = ({ isOpen, onClose, onBookCreated }) => {
+const CreateBookModal = ({ isOpen, onClose, onSuccess }) => {
   const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [bookTitle, setBookTitle] = useState('');
@@ -95,7 +95,9 @@ const CreateBookModal = ({ isOpen, onClose, onBookCreated }) => {
         chapters,
       });
       toast.success('Book created successfully!');
-      onBookCreated(response?.data?._id);
+      // Use the backend-returned book id so parent navigation is correct
+      const newBookId = response?.data?.book?._id;
+      onSuccess?.(newBookId);
       onClose();
       resetModal();
     } catch (error) {

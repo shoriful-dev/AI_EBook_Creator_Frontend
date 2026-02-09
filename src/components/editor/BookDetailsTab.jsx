@@ -11,7 +11,11 @@ const BookDetailsTab = ({
   isUploading,
   fileInputRef,
 }) => {
-  const coverImageUrl = book.coverImage.startsWith('http') ? book.coverImage : `${BASE_URL}/backend${book.coverImage}`.replace(/\\/g, '/');
+  const coverImageUrl = book.coverImage
+    ? book.coverImage.startsWith('http')
+      ? book.coverImage
+      : `${BASE_URL}/backend/${book.coverImage}`.replace(/\\/g, '/')
+    : 'https://via.placeholder.com/600x800?text=No+Cover+Image';
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">

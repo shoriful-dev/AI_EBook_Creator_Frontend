@@ -7,8 +7,10 @@ const BookCard = ({ book, onDelete }) => {
   const navigate = useNavigate();
 
   const coverImageUrl = book.coverImage
-    ? `${BASE_URL}/backend${book.coverImage}`.replace(/\\/g, '/')
-    : '';
+    ? book.coverImage.startsWith('http')
+      ? book.coverImage
+      : `${BASE_URL}/backend/${book.coverImage}`.replace(/\\/g, '/')
+    : 'https://via.placeholder.com/600x800?text=No+Cover+Image';
 
   return (
     <div className="group relative bg-white rounded-xl overflow-hidden border border-gray-100 hover:border-gray-200 transition-colors duration-300 hover:shadow-xl hover:shadow-gray-100/50 hover:-translate-y-1 cursor-pointer" onClick={() => navigate(`/view-book/${book._id}`)}>

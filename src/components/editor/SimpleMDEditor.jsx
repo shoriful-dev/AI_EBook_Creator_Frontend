@@ -2,7 +2,7 @@ import React from 'react';
 import { Type } from 'lucide-react';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 
-const SimpleMDEditor = ({value, onChange, options}) => {
+const SimpleMDEditor = ({value, onChange}) => {
   return (
     <div className='border border-gray-200 rounded-lg overflow-hidden shadow-sm' data-color-mode="light">
       {/* Header */}

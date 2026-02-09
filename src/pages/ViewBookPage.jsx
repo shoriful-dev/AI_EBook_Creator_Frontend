@@ -36,7 +36,8 @@ const ViewBookPage = () => {
         const response = await axiosInstance.get(
           `${API_PATHS.BOOKS.GET_BOOK_BY_ID}/${bookId}`,
         );
-        setBook(response.data);
+        // API returns { book: {...} }
+        setBook(response.data?.book || null);
       } catch (error) {
         toast.error(
           error.response?.data?.message ||

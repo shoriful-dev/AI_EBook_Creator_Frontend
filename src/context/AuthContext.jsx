@@ -47,13 +47,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-
+    localStorage.clear();
     setUser(null);
     setIsAuthenticated(false);
-    window.location.href = '/';
+    // Force a complete reload to clear any memory-stored state or tokens in intercepted closures
+    window.location.href = '/login';
   };
 
   const updateUser = (updatedUserData) => {

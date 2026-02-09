@@ -7,7 +7,11 @@ const ViewBook = ({ book }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [fontSize, setFontSize] = useState(18);
 
-  const selectedChapter = book.chapters[selectedChapterIndex];
+  const hasChapters = Array.isArray(book?.chapters) && book.chapters.length > 0;
+  const selectedChapter =
+    hasChapters && book.chapters[selectedChapterIndex]
+      ? book.chapters[selectedChapterIndex]
+      : { title: 'No chapters yet', content: '' };
 
   // Format context with proper paragraphs and styling
   const formatContent = content => {
@@ -100,7 +104,7 @@ const ViewBook = ({ book }) => {
             <div className="flex justify-between items-center mt-16 pt-8 border-t border-gray-200">
               <button
                 onClick={() =>
-                  selectedChapterIndex(Math.max(0, selectedChapterIndex - 1))
+                  setSelectedChapterIndex(Math.max(0, selectedChapterIndex - 1))
                 }
                 disabled={selectedChapterIndex === 0}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg transition-colors hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -110,19 +114,23 @@ const ViewBook = ({ book }) => {
               </button>
 
               <span className="text-sm text-gray-500">
-                {selectedChapterIndex + 1} of {book.chapters.length}
+                {hasChapters ? selectedChapterIndex + 1 : 0} of{' '}
+                {book.chapters?.length || 0}
               </span>
 
               <button
                 onClick={() =>
-                  selectedChapterIndex(
+                  setSelectedChapterIndex(
                     Math.min(
-                      book.chapters.length - 1,
+                      (book.chapters?.length || 1) - 1,
                       selectedChapterIndex + 1,
                     ),
                   )
                 }
-                disabled={selectedChapterIndex === book.chapters.length - 1}
+                disabled={
+                  !hasChapters ||
+                  selectedChapterIndex === (book.chapters?.length || 1) - 1
+                }
                 className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next Chapter
